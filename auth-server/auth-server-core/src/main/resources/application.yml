@@ -1,0 +1,18 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: auth-server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost/spring-cloud-oauth?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka/ #key的名字不能使用default-zone
