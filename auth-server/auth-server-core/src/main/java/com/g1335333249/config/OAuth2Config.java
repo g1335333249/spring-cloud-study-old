@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -32,7 +33,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
         clients.inMemory()
                 // 配置一个客户端
                 .withClient("user-service")
-                .secret("123456")
+                .secret(new BCryptPasswordEncoder().encode("123456"))
                 // 配置客户端的域
                 .scopes("service")
                 // 配置验证类型为refresh_token和password
@@ -49,6 +50,11 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .tokenEnhancer(jwtTokenEnhancer())
                 // 配置安全认证管理
                 .authenticationManager(authenticationManager);
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
